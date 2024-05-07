@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'models/reminder_model.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ReminderModel(),
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
