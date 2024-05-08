@@ -17,10 +17,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Text("Hello World!"),
+        body: ListView(
+          children: const <Widget>[
+            ListTile(
+              leading: Icon(Icons.alarm),
+              title: Text("10:00"),
+            ),
+          ],
         ),
       ),
     );
