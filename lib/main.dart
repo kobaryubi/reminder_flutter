@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'models/reminder_model.dart';
+import 'screens/reminder_list.dart';
 
 void main() {
   runApp(
@@ -17,17 +18,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: ListView(
-          children: const <Widget>[
-            ListTile(
-              leading: Icon(Icons.alarm),
-              title: Text("10:00"),
-            ),
-          ],
-        ),
-      ),
+    return const MaterialApp(
+      home: ReminderListScreen(),
     );
   }
 }
