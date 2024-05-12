@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../models/reminder_model.dart';
 import 'reminder_add.dart';
+import 'reminder_edit.dart';
 
 class ReminderListScreen extends StatelessWidget {
   const ReminderListScreen({super.key});
@@ -34,9 +35,16 @@ class ReminderListScreen extends StatelessWidget {
         itemCount: reminders.length,
         itemBuilder: (context, index) {
           return ListTile(
-            leading: const Icon(Icons.alarm),
-            title: Text(reminders[index]),
-          );
+              leading: const Icon(Icons.alarm),
+              title: Text(reminders[index]),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ReminderEditScreen(),
+                  ),
+                );
+              });
         },
       ),
     );
