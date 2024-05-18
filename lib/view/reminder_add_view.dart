@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ReminderAddScreen extends StatefulWidget {
-  const ReminderAddScreen({super.key});
+class ReminderAddView extends StatefulWidget {
+  const ReminderAddView({super.key});
 
   @override
-  State<ReminderAddScreen> createState() => _ReminderAddScreenState();
+  State<ReminderAddView> createState() => _ReminderAddViewState();
 }
 
-class _ReminderAddScreenState extends State<ReminderAddScreen> {
+class _ReminderAddViewState extends State<ReminderAddView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override

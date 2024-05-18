@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'view/reminder_list_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:reminder_flutter/model/reminder_model.dart';
+import 'package:reminder_flutter/view/reminder_list_view.dart';
 
 void main() {
   runApp(const MainApp());
@@ -11,8 +12,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: ReminderListScreen(),
+    return ChangeNotifierProvider(
+      create: (context) => ReminderModel(),
+      child: const MaterialApp(
+        home: ReminderListView(),
+      ),
     );
   }
 }
