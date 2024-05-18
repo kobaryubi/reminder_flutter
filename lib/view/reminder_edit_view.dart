@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ReminderEditScreen extends StatelessWidget {
-  const ReminderEditScreen({super.key});
+class ReminderEditView extends StatelessWidget {
+  const ReminderEditView({super.key});
 
   @override
   Widget build(BuildContext context) {
