@@ -40,6 +40,7 @@ class _ReminderListViewState extends State<ReminderListView> {
           if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
+
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(
               child: Text('No reminders'),
