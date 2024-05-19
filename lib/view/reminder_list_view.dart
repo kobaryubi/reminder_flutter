@@ -4,14 +4,9 @@ import 'package:reminder_flutter/model/reminder_model.dart';
 import 'package:reminder_flutter/view/reminder_add_view.dart';
 import 'package:reminder_flutter/view/reminder_edit_view.dart';
 
-class ReminderListView extends StatefulWidget {
+class ReminderListView extends StatelessWidget {
   const ReminderListView({super.key});
 
-  @override
-  State<ReminderListView> createState() => _ReminderListViewState();
-}
-
-class _ReminderListViewState extends State<ReminderListView> {
   @override
   Widget build(BuildContext context) {
     final reminderModel = context.watch<ReminderModel>();
