@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Reminder {
@@ -35,19 +34,5 @@ class Reminder {
     Map<String, dynamic> data = jsonDecode(response.body);
     List<dynamic> remindersJson = data['reminders'];
     return remindersJson.map((json) => Reminder.fromJson(json)).toList();
-  }
-}
-
-class ReminderModel extends ChangeNotifier {
-  late Future<List<Reminder>> _futureReminders;
-  Future<List<Reminder>> get futureReminders => _futureReminders;
-
-  ReminderModel() {
-    fetchReminders();
-  }
-
-  Future<void> fetchReminders() async {
-    _futureReminders = Reminder.fetch();
-    notifyListeners();
   }
 }

@@ -1,14 +1,22 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reminder_flutter/application/reminder_state.dart';
+import 'package:reminder_flutter/application/user_state.dart';
 import 'package:reminder_flutter/firebase_options.dart';
-import 'package:reminder_flutter/model/reminder_model.dart';
 import 'package:reminder_flutter/view/reminder_list_view.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseUIAuth.configureProviders([
+    EmailAuthProvider(),
+  ]);
+
   runApp(const MainApp());
 }
 
@@ -17,8 +25,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ReminderModel(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ReminderState>(
+          create: (context) => ReminderState(),
+        ),
+        ChangeNotifierProvider<UserState>(
+          create: (context) => UserState(),
+        )
+      ],
       child: const MaterialApp(
         home: ReminderListView(),
       ),
