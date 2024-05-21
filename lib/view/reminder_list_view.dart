@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reminder_flutter/model/reminder_model.dart';
+import 'package:reminder_flutter/application/reminder_state.dart';
 import 'package:reminder_flutter/view/reminder_add_view.dart';
 import 'package:reminder_flutter/view/reminder_edit_view.dart';
 
@@ -9,7 +9,7 @@ class ReminderListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final reminderModel = context.watch<ReminderModel>();
+    final reminderState = context.watch<ReminderState>();
 
     return Scaffold(
       appBar: AppBar(
@@ -30,7 +30,7 @@ class ReminderListView extends StatelessWidget {
         ],
       ),
       body: FutureBuilder(
-        future: reminderModel.futureReminders,
+        future: reminderState.futureReminders,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Text('${snapshot.error}');
