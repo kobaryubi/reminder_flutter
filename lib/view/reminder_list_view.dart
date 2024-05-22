@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder_flutter/application/reminder_state.dart';
-import 'package:reminder_flutter/view/reminder_add_view.dart';
-import 'package:reminder_flutter/view/reminder_edit_view.dart';
 
 class ReminderListView extends StatelessWidget {
   const ReminderListView({super.key});
@@ -18,14 +17,7 @@ class ReminderListView extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.add),
             tooltip: 'Add a reminder',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ReminderAddView(),
-                ),
-              );
-            },
+            onPressed: () => context.go('/add'),
           )
         ],
       ),
@@ -49,14 +41,7 @@ class ReminderListView extends StatelessWidget {
               return ListTile(
                 leading: const Icon(Icons.alarm),
                 title: Text(reminders[index].title),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ReminderEditView(),
-                    ),
-                  );
-                },
+                onTap: () => context.go('/${reminders[index].id}'),
               );
             },
           );

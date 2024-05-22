@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:reminder_flutter/application/reminder_state.dart';
 import 'package:reminder_flutter/application/user_state.dart';
 import 'package:reminder_flutter/firebase_options.dart';
-import 'package:reminder_flutter/view/reminder_list_view.dart';
+import 'package:reminder_flutter/presentation/router.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,8 +34,8 @@ class MainApp extends StatelessWidget {
           create: (context) => UserState(),
         )
       ],
-      child: const MaterialApp(
-        home: ReminderListView(),
+      child: MaterialApp.router(
+        routerConfig: router,
       ),
     );
   }
