@@ -19,7 +19,7 @@ class ReminderListView extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.add),
             tooltip: 'Add a reminder',
-            onPressed: () => context.go('/add'),
+            onPressed: () => context.push('/add'),
           )
         ],
       ),
@@ -44,7 +44,7 @@ class ReminderListView extends StatelessWidget {
                     return ListTile(
                       leading: const Icon(Icons.alarm),
                       title: Text(reminders[index].title),
-                      onTap: () => context.go('/${reminders[index].id}'),
+                      onTap: () => context.push('/${reminders[index].id}'),
                     );
                   },
                 );
@@ -52,7 +52,7 @@ class ReminderListView extends StatelessWidget {
             )
           : Center(
               child: ElevatedButton(
-                onPressed: () => context.go('/sign-in'),
+                onPressed: () => context.push('/sign-in'),
                 child: const Text('Sign in'),
               ),
             ),
