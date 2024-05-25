@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserState extends ChangeNotifier {
-  bool _loggedIn = false;
-  bool get loggedIn => _loggedIn;
+  bool _isLoggedIn = false;
+  bool get isLoggedIn => _isLoggedIn;
 
   UserState() {
     init();
@@ -11,7 +11,7 @@ class UserState extends ChangeNotifier {
 
   void init() {
     FirebaseAuth.instance.userChanges().listen((user) {
-      _loggedIn = user != null;
+      _isLoggedIn = user != null;
       notifyListeners();
     });
   }

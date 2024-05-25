@@ -1,3 +1,4 @@
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:reminder_flutter/view/reminder_add_view.dart';
@@ -12,6 +13,12 @@ final router = GoRouter(
         return const ReminderListView();
       },
       routes: <RouteBase>[
+        GoRoute(
+          path: 'sign-in',
+          builder: (BuildContext context, GoRouterState state) {
+            return const SignInScreen();
+          },
+        ),
         GoRoute(
           path: 'add',
           builder: (BuildContext context, GoRouterState state) {
