@@ -11,7 +11,7 @@ class UserState extends ChangeNotifier {
 
   void init() {
     FirebaseAuth.instance.userChanges().listen((user) {
-      _isLoggedIn = user != null;
+      _isLoggedIn = user != null && user.emailVerified;
       notifyListeners();
     });
   }
