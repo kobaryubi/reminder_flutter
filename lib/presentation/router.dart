@@ -36,10 +36,39 @@ final router = GoRouter(
                   );
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }),
+                AuthStateChangeAction<SignedIn>(
+                    (BuildContext context, SignedIn state) async {
+                  final user = state.user;
+                  if (user == null) {
+                    return;
+                  }
+
+                  if (!user.emailVerified) {
+                    await user.sendEmailVerification();
+                    if (!context.mounted) {
+                      return;
+                    }
+
+                    const snackBar = SnackBar(
+                      content: Text(
+                          'Please check your email to verify your email address'),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                    return;
+                  }
+
+                  context.go('/');
+                }),
               ],
             );
           },
         ),
+        GoRoute(
+            path: 'profile',
+            builder: (BuildContext context, GoRouterState state) {
+              return const ProfileScreen();
+            }),
         GoRoute(
           path: 'add',
           builder: (BuildContext context, GoRouterState state) {
