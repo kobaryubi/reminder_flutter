@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:reminder_flutter/application/usecase/reminder/get_reminders_usecase.dart';
 import 'package:reminder_flutter/domain/entity/reminder_entity.dart';
 
-class ReminderState extends ChangeNotifier {
+class ReminderListState extends ChangeNotifier {
   final GetRemindersUseCase _getRemindersUseCase;
 
-  late Future<List<ReminderEntity>> _futureReminders;
-  Future<List<ReminderEntity>> get futureReminders => _futureReminders;
+  late Future<List<ReminderEntity>> _futureReminderList;
+  Future<List<ReminderEntity>> get futureReminderList => _futureReminderList;
 
-  ReminderState(this._getRemindersUseCase) {
+  ReminderListState(this._getRemindersUseCase) {
     _getReminders();
   }
 
   Future<void> _getReminders() async {
-    _futureReminders = _getRemindersUseCase();
+    _futureReminderList = _getRemindersUseCase();
     notifyListeners();
   }
 }
