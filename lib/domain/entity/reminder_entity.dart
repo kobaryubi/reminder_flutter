@@ -1,8 +1,8 @@
-class Reminder {
+class ReminderEntity {
   final int id;
   final String title;
 
-  const Reminder({
+  const ReminderEntity({
     required this.id,
     required this.title,
   });
