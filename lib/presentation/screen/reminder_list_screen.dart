@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:reminder_flutter/application/reminder_state.dart';
+import 'package:reminder_flutter/presentation/state/reminder_list_state.dart';
 import 'package:reminder_flutter/application/user_state.dart';
 
-class ReminderListView extends StatelessWidget {
-  const ReminderListView({super.key});
+class ReminderListScreen extends StatelessWidget {
+  const ReminderListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final reminderState = context.watch<ReminderState>();
+    final reminderListState = context.watch<ReminderListState>();
     final userState = context.watch<UserState>();
 
     return Scaffold(
@@ -25,7 +25,7 @@ class ReminderListView extends StatelessWidget {
       ),
       body: userState.isLoggedIn
           ? FutureBuilder(
-              future: reminderState.futureReminders,
+              future: reminderListState.futureReminderList,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Text('${snapshot.error}');
