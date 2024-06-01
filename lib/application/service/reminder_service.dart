@@ -1,4 +1,4 @@
-import 'package:reminder_flutter/domain/entity/reminder.dart';
+import 'package:reminder_flutter/domain/entity/reminder_entity.dart';
 import 'package:reminder_flutter/domain/repository/reminder_repository.dart';
 
 class ReminderService {
@@ -6,7 +6,7 @@ class ReminderService {
 
   ReminderService(this._reminderRepository);
 
-  Future<void> addReminder(Reminder reminder) async {
-    return await _reminderRepository.addReminder(reminder);
+  Future<List<ReminderEntity>> getReminders() async {
+    return await _reminderRepository.getReminders();
   }
 }

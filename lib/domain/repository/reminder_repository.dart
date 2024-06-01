@@ -1,5 +1,5 @@
-import 'package:reminder_flutter/domain/entity/reminder.dart';
+import 'package:reminder_flutter/domain/entity/reminder_entity.dart';
 
 abstract class ReminderRepository {
-  Future<List<Reminder>> getReminders();
+  Future<List<ReminderEntity>> getReminders();
 }
