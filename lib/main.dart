@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder_flutter/application/reminder_state.dart';
 import 'package:reminder_flutter/application/user_state.dart';
+import 'package:reminder_flutter/domain/repository/reminder_repository.dart';
 import 'package:reminder_flutter/firebase_options.dart';
+import 'package:reminder_flutter/infrastructure/repository_impl/rest_reminder_repository_impl.dart';
 import 'package:reminder_flutter/presentation/router.dart';
 
 Future<void> main() async {
@@ -32,6 +34,10 @@ class MainApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<UserState>(
           create: (context) => UserState(),
+        ),
+        Provider<ReminderRepository>(
+          create: (context) =>
+              RestReminderRepositoryImpl("http://localhost:8080"),
         )
       ],
       child: MaterialApp.router(
