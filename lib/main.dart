@@ -6,7 +6,6 @@ import 'package:reminder_flutter/presentation/state/reminder_list_state.dart';
 import 'package:reminder_flutter/application/service/reminder_service.dart';
 import 'package:reminder_flutter/application/usecase/reminder/get_reminders_usecase.dart';
 import 'package:reminder_flutter/application/user_state.dart';
-import 'package:reminder_flutter/domain/repository/reminder_repository.dart';
 import 'package:reminder_flutter/firebase_options.dart';
 import 'package:reminder_flutter/infrastructure/repository_impl/rest_reminder_repository_impl.dart';
 import 'package:reminder_flutter/presentation/router.dart';
@@ -21,11 +20,20 @@ Future<void> main() async {
     EmailAuthProvider(),
   ]);
 
-  runApp(const MainApp());
+  final reminderRepository =
+      RestReminderRepositoryImpl("http://localhost:8080");
+  final reminderService = ReminderService(reminderRepository);
+
+  runApp(MainApp(
+    reminderService: reminderService,
+  ));
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  final ReminderService _reminderService;
+
+  const MainApp({super.key, required ReminderService reminderService})
+      : _reminderService = reminderService;
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +42,9 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider<UserState>(
           create: (context) => UserState(),
         ),
-        Provider<ReminderRepository>(
-          create: (context) =>
-              RestReminderRepositoryImpl("http://localhost:8080"),
-        ),
-        Provider<ReminderService>(
-          create: (BuildContext context) =>
-              ReminderService(context.read<ReminderRepository>()),
-        ),
         Provider<GetRemindersUseCase>(
           create: (BuildContext context) =>
-              GetRemindersUseCase(context.read<ReminderService>()),
+              GetRemindersUseCase(_reminderService),
         ),
         ChangeNotifierProvider<ReminderListState>(
           create: (BuildContext context) =>
