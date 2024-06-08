@@ -13,11 +13,11 @@ class ReminderAddScreen extends StatefulWidget {
 
 class _ReminderAddScreenState extends State<ReminderAddScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
 
   @override
   void dispose() {
-    _controller.dispose();
+    _titleController.dispose();
     super.dispose();
   }
 
@@ -36,13 +36,14 @@ class _ReminderAddScreenState extends State<ReminderAddScreen> {
             children: <Widget>[
               TextFormField(
                 autofocus: true,
+                controller: _titleController,
                 decoration: const InputDecoration(
-                  hintText: 'Enter your reminder',
-                  labelText: 'Reminder',
+                  hintText: 'Enter your title',
+                  labelText: 'Title',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Enter your reminder to continue';
+                    return 'Enter your title to continue';
                   }
 
                   return null;
@@ -60,10 +61,10 @@ class _ReminderAddScreenState extends State<ReminderAddScreen> {
                         context.read<AddReminderUseCase>();
                     final reminderEntity = ReminderEntity(
                       id: '',
-                      title: _controller.text,
+                      title: _titleController.text,
                     );
                     await addReminderUseCase(reminderEntity);
-                    _controller.clear();
+                    _titleController.clear();
 
                     if (!context.mounted) {
                       return;
