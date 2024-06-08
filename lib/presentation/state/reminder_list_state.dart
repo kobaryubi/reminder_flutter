@@ -9,10 +9,10 @@ class ReminderListState extends ChangeNotifier {
   Future<List<ReminderEntity>> get futureReminderList => _futureReminderList;
 
   ReminderListState(this._getRemindersUseCase) {
-    _getReminders();
+    getReminders();
   }
 
-  Future<void> _getReminders() async {
+  Future<void> getReminders() async {
     _futureReminderList = _getRemindersUseCase();
     notifyListeners();
   }
