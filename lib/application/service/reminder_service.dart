@@ -9,4 +9,8 @@ class ReminderService {
   Future<List<ReminderEntity>> getReminders() async {
     return await _reminderRepository.getReminders();
   }
+
+  Future<void> addReminder(ReminderEntity reminderEntity) async {
+    return await _reminderRepository.addReminder(reminderEntity);
+  }
 }
