@@ -11,4 +11,9 @@ class FirestoreReminderRepositoryImpl implements ReminderRepository {
   Future<List<ReminderEntity>> getReminders() async {
     return [];
   }
+
+  @override
+  Future<void> addReminder(ReminderEntity reminderEntity) async {
+    return;
+  }
 }

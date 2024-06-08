@@ -27,4 +27,9 @@ class RestReminderRepositoryImpl implements ReminderRepository {
         .map((json) => ReminderMapper.toEntity(ReminderDto.fromJson(json)))
         .toList();
   }
+
+  @override
+  Future<void> addReminder(ReminderEntity reminderEntity) async {
+    return;
+  }
 }
