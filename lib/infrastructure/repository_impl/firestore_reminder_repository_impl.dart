@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reminder_flutter/domain/entity/reminder_entity.dart';
 import 'package:reminder_flutter/domain/repository/reminder_repository.dart';
+import 'package:reminder_flutter/infrastructure/dto/reminder_dto.dart';
 import 'package:reminder_flutter/infrastructure/mapper/reminder_mapper.dart';
 
 class FirestoreReminderRepositoryImpl implements ReminderRepository {
@@ -11,7 +12,18 @@ class FirestoreReminderRepositoryImpl implements ReminderRepository {
 
   @override
   Future<List<ReminderEntity>> getReminders() async {
-    return [];
+    final querySnapshot = await firestore
+        .collection(_remindersCollection)
+        .withConverter(
+            fromFirestore: ReminderDto.fromFirestore,
+            toFirestore: (ReminderDto reminderDto, SetOptions? options) {
+              return reminderDto.toFirestore();
+            })
+        .get();
+
+    return querySnapshot.docs
+        .map((doc) => ReminderMapper.toEntity(doc.data()))
+        .toList();
   }
 
   @override

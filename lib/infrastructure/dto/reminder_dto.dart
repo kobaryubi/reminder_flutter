@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ReminderDto {
   final String id;
   final String title;
@@ -14,9 +16,27 @@ class ReminderDto {
     );
   }
 
+  factory ReminderDto.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    SnapshotOptions? options,
+  ) {
+    final data = snapshot.data();
+
+    return ReminderDto(
+      id: snapshot.id,
+      title: data?['title'],
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'title': title,
+    };
+  }
+
+  Map<String, dynamic> toFirestore() {
+    return {
       'title': title,
     };
   }
