@@ -19,6 +19,6 @@ class FirestoreReminderRepositoryImpl implements ReminderRepository {
     final reminderMap = ReminderMapper.toDto(reminderEntity).toMap();
     reminderMap.remove('id');
 
-    firestore.collection(_remindersCollection).add(reminderMap);
+    await firestore.collection(_remindersCollection).add(reminderMap);
   }
 }
