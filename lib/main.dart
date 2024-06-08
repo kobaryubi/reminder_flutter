@@ -34,8 +34,10 @@ Future<void> main() async {
 class MainApp extends StatelessWidget {
   final ReminderService _reminderService;
 
-  const MainApp({super.key, required ReminderService reminderService})
-      : _reminderService = reminderService;
+  const MainApp({
+    required ReminderService reminderService,
+    super.key,
+  }) : _reminderService = reminderService;
 
   @override
   Widget build(BuildContext context) {

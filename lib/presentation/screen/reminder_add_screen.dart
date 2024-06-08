@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ReminderAddScreen extends StatefulWidget {
   const ReminderAddScreen({super.key});
@@ -29,11 +30,24 @@ class _ReminderAddScreenState extends State<ReminderAddScreen> {
                   hintText: 'Enter your reminder',
                   labelText: 'Reminder',
                 ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter your reminder to continue';
+                  }
+
+                  return null;
+                },
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (!_formKey.currentState!.validate()) {
+                      return;
+                    }
+
+                    context.pop();
+                  },
                   child: const Text('Submit'),
                 ),
               ),
