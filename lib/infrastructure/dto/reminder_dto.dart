@@ -1,5 +1,5 @@
 class ReminderDto {
-  final int id;
+  final String id;
   final String title;
 
   const ReminderDto({
@@ -12,5 +12,12 @@ class ReminderDto {
       id: json['id'],
       title: json['title'],
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+    };
   }
 }
