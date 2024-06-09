@@ -19,19 +19,49 @@ class _ReminderAddScreenState extends State<ReminderAddScreen> {
   DateTime _remindAt = DateTime.now();
 
   void _pickNotificationDate(BuildContext context) async {
+    final now = DateTime.now();
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: _remindAt,
-      firstDate: _remindAt,
-      lastDate: _remindAt.add(const Duration(days: 365)),
+      firstDate: now,
+      lastDate: now.add(const Duration(days: 365)),
     );
 
     if (pickedDate == null || pickedDate == _remindAt) {
       return;
     }
 
+    if (!context.mounted) {
+      return;
+    }
+
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(_remindAt),
+    );
+
+    if (pickedTime == null) {
+      setState(() {
+        _remindAt = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          _remindAt.hour,
+          _remindAt.minute,
+        );
+      });
+
+      return;
+    }
+
     setState(() {
-      _remindAt = pickedDate;
+      _remindAt = DateTime(
+        pickedDate.year,
+        pickedDate.month,
+        pickedDate.day,
+        pickedTime.hour,
+        pickedTime.minute,
+      );
     });
   }
 
