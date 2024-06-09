@@ -16,10 +16,11 @@ class FirestoreReminderRepositoryImpl implements ReminderRepository {
         .collection(_remindersCollection)
         .orderBy('remindAt', descending: false)
         .withConverter(
-            fromFirestore: ReminderDto.fromFirestore,
-            toFirestore: (ReminderDto reminderDto, SetOptions? options) {
-              return reminderDto.toFirestore();
-            })
+          fromFirestore: ReminderDto.fromFirestore,
+          toFirestore: (ReminderDto reminderDto, SetOptions? options) {
+            return reminderDto.toFirestore();
+          },
+        )
         .get();
 
     return querySnapshot.docs
