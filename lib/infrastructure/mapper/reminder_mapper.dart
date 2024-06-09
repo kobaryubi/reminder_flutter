@@ -6,6 +6,7 @@ class ReminderMapper {
     return ReminderEntity(
       id: dto.id,
       title: dto.title,
+      remindAt: dto.remindAt,
     );
   }
 
@@ -13,6 +14,7 @@ class ReminderMapper {
     return ReminderDto(
       id: entity.id,
       title: entity.title,
+      remindAt: entity.remindAt,
     );
   }
 }

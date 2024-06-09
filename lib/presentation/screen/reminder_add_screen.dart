@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder_flutter/application/use_case/reminder/add_reminder_use_case.dart';
 import 'package:reminder_flutter/domain/entity/reminder_entity.dart';
@@ -15,6 +16,24 @@ class ReminderAddScreen extends StatefulWidget {
 class _ReminderAddScreenState extends State<ReminderAddScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
+  DateTime _remindAt = DateTime.now();
+
+  void _pickNotificationDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: _remindAt,
+      firstDate: _remindAt,
+      lastDate: _remindAt.add(const Duration(days: 365)),
+    );
+
+    if (pickedDate == null || pickedDate == _remindAt) {
+      return;
+    }
+
+    setState(() {
+      _remindAt = pickedDate;
+    });
+  }
 
   @override
   void dispose() {
@@ -24,6 +43,8 @@ class _ReminderAddScreenState extends State<ReminderAddScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String formattedRemindAt = DateFormat('yyyy-MM-dd HH:mm').format(_remindAt);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Reminder'),
@@ -33,7 +54,6 @@ class _ReminderAddScreenState extends State<ReminderAddScreen> {
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               TextFormField(
                 autofocus: true,
@@ -50,34 +70,42 @@ class _ReminderAddScreenState extends State<ReminderAddScreen> {
                   return null;
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (!_formKey.currentState!.validate()) {
-                      return;
-                    }
+              const SizedBox(height: 16.0),
+              Row(
+                children: [
+                  Expanded(child: Text(formattedRemindAt)),
+                  IconButton(
+                    icon: const Icon(Icons.calendar_today),
+                    onPressed: () => _pickNotificationDate(context),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: () async {
+                  if (!_formKey.currentState!.validate()) {
+                    return;
+                  }
 
-                    final addReminderUseCase =
-                        context.read<AddReminderUseCase>();
-                    final reminderListState = context.read<ReminderListState>();
+                  final addReminderUseCase = context.read<AddReminderUseCase>();
+                  final reminderListState = context.read<ReminderListState>();
 
-                    await addReminderUseCase(ReminderEntity(
-                      id: '',
-                      title: _titleController.text,
-                    ));
+                  await addReminderUseCase(ReminderEntity(
+                    id: '',
+                    title: _titleController.text,
+                    remindAt: _remindAt,
+                  ));
 
-                    _titleController.clear();
+                  _titleController.clear();
 
-                    await reminderListState.getReminders();
+                  await reminderListState.getReminders();
 
-                    if (!context.mounted) {
-                      return;
-                    }
-                    context.pop();
-                  },
-                  child: const Text('Submit'),
-                ),
+                  if (!context.mounted) {
+                    return;
+                  }
+                  context.pop();
+                },
+                child: const Text('Submit'),
               ),
             ],
           ),
