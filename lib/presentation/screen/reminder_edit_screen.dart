@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:reminder_flutter/application/use_case/reminder/add_reminder_use_case.dart';
 import 'package:reminder_flutter/domain/entity/reminder_entity.dart';
 import 'package:reminder_flutter/presentation/state/reminder_list_state.dart';
+import 'package:reminder_flutter/presentation/state/user_state.dart';
 
 class ReminderEditScreen extends StatefulWidget {
   final String? id;
@@ -121,12 +122,20 @@ class _ReminderEditScreenState extends State<ReminderEditScreen> {
 
                   final addReminderUseCase = context.read<AddReminderUseCase>();
                   final reminderListState = context.read<ReminderListState>();
+                  final uid = context.read<UserState>().user?.uid;
 
-                  await addReminderUseCase(ReminderEntity(
-                    id: '',
-                    title: _titleController.text,
-                    remindAt: _remindAt,
-                  ));
+                  if (uid == null) {
+                    return;
+                  }
+
+                  await addReminderUseCase(
+                    uid: uid,
+                    reminderEntity: ReminderEntity(
+                      id: '',
+                      title: _titleController.text,
+                      remindAt: _remindAt,
+                    ),
+                  );
 
                   _titleController.clear();
 

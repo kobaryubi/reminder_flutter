@@ -6,7 +6,13 @@ class AddReminderUseCase {
 
   AddReminderUseCase(this._reminderService);
 
-  Future<void> call(ReminderEntity reminderEntity) async {
-    return await _reminderService.addReminder(reminderEntity);
+  Future<void> call({
+    required String uid,
+    required ReminderEntity reminderEntity,
+  }) async {
+    return await _reminderService.addReminder(
+      uid: uid,
+      reminderEntity: reminderEntity,
+    );
   }
 }
