@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder_flutter/presentation/state/reminder_list_state.dart';
-import 'package:reminder_flutter/application/user_state.dart';
+import 'package:reminder_flutter/presentation/state/user_state.dart';
 
 class ReminderListScreen extends StatelessWidget {
   const ReminderListScreen({super.key});

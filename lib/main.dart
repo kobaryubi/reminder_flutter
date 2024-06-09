@@ -8,7 +8,7 @@ import 'package:reminder_flutter/infrastructure/repository_impl/firestore_remind
 import 'package:reminder_flutter/presentation/state/reminder_list_state.dart';
 import 'package:reminder_flutter/application/service/reminder_service.dart';
 import 'package:reminder_flutter/application/use_case/reminder/get_reminders_use_case.dart';
-import 'package:reminder_flutter/application/user_state.dart';
+import 'package:reminder_flutter/presentation/state/user_state.dart';
 import 'package:reminder_flutter/firebase_options.dart';
 import 'package:reminder_flutter/presentation/router.dart';
 
@@ -54,9 +54,23 @@ class MainApp extends StatelessWidget {
           create: (BuildContext context) =>
               AddReminderUseCase(_reminderService),
         ),
-        ChangeNotifierProvider<ReminderListState>(
-          create: (BuildContext context) =>
-              ReminderListState(context.read<GetRemindersUseCase>()),
+        ChangeNotifierProxyProvider<UserState, ReminderListState>(
+          create: (BuildContext context) {
+            return ReminderListState(
+              getRemindersUseCase: context.read<GetRemindersUseCase>(),
+              userState: context.read<UserState>(),
+            );
+          },
+          update: (
+            BuildContext context,
+            UserState userState,
+            ReminderListState? reminderListState,
+          ) {
+            return ReminderListState(
+              getRemindersUseCase: context.read<GetRemindersUseCase>(),
+              userState: userState,
+            );
+          },
         ),
       ],
       child: MaterialApp.router(
