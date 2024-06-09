@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder_flutter/presentation/state/reminder_list_state.dart';
 import 'package:reminder_flutter/application/user_state.dart';
@@ -41,9 +42,19 @@ class ReminderListScreen extends StatelessWidget {
                 return ListView.builder(
                   itemCount: reminders.length,
                   itemBuilder: (context, index) {
+                    final String formattedRemindAt =
+                        DateFormat('yyyy-MM-dd HH:mm')
+                            .format(reminders[index].remindAt);
+
                     return ListTile(
                       leading: const Icon(Icons.alarm),
-                      title: Text(reminders[index].title),
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(reminders[index].title),
+                          Text(formattedRemindAt),
+                        ],
+                      ),
                       onTap: () => context.push('/${reminders[index].id}'),
                     );
                   },
