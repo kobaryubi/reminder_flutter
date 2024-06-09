@@ -3,6 +3,16 @@ import 'dart:async';
 import 'package:reminder_flutter/domain/entity/reminder_entity.dart';
 
 abstract class ReminderRepository {
-  FutureOr<List<ReminderEntity>> getReminders();
-  FutureOr<void> addReminder(ReminderEntity reminderEntity);
+  Future<ReminderEntity> getReminder({
+    required String uid,
+    required String id,
+  });
+  Future<List<ReminderEntity>> getReminders({
+    required String uid,
+    required String id,
+  });
+  Future<void> addReminder({
+    required String uid,
+    required ReminderEntity reminderEntity,
+  });
 }
