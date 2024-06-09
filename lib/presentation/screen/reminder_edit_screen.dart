@@ -6,14 +6,14 @@ import 'package:reminder_flutter/application/use_case/reminder/add_reminder_use_
 import 'package:reminder_flutter/domain/entity/reminder_entity.dart';
 import 'package:reminder_flutter/presentation/state/reminder_list_state.dart';
 
-class ReminderAddScreen extends StatefulWidget {
-  const ReminderAddScreen({super.key});
+class ReminderEditScreen extends StatefulWidget {
+  const ReminderEditScreen({super.key});
 
   @override
-  State<ReminderAddScreen> createState() => _ReminderAddScreenState();
+  State<ReminderEditScreen> createState() => _ReminderEditScreenState();
 }
 
-class _ReminderAddScreenState extends State<ReminderAddScreen> {
+class _ReminderEditScreenState extends State<ReminderEditScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   DateTime _remindAt = DateTime.now();
