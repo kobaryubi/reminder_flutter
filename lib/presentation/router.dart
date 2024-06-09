@@ -77,7 +77,7 @@ final router = GoRouter(
         GoRoute(
           path: ':id',
           builder: (BuildContext context, GoRouterState state) {
-            return const ReminderEditScreen();
+            return ReminderEditScreen(id: state.pathParameters['id']);
           },
         )
       ],

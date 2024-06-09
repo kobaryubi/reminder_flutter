@@ -7,7 +7,9 @@ import 'package:reminder_flutter/domain/entity/reminder_entity.dart';
 import 'package:reminder_flutter/presentation/state/reminder_list_state.dart';
 
 class ReminderEditScreen extends StatefulWidget {
-  const ReminderEditScreen({super.key});
+  final String? id;
+
+  const ReminderEditScreen({super.key, this.id});
 
   @override
   State<ReminderEditScreen> createState() => _ReminderEditScreenState();
