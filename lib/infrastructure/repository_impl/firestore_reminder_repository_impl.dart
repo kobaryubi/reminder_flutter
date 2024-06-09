@@ -14,6 +14,7 @@ class FirestoreReminderRepositoryImpl implements ReminderRepository {
   Future<List<ReminderEntity>> getReminders() async {
     final querySnapshot = await firestore
         .collection(_remindersCollection)
+        .orderBy('remindAt', descending: false)
         .withConverter(
             fromFirestore: ReminderDto.fromFirestore,
             toFirestore: (ReminderDto reminderDto, SetOptions? options) {
