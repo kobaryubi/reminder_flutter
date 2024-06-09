@@ -1,8 +1,7 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:reminder_flutter/presentation/screen/reminder_add_screen.dart';
-import 'package:reminder_flutter/view/reminder_edit_view.dart';
+import 'package:reminder_flutter/presentation/screen/reminder_edit_screen.dart';
 import 'package:reminder_flutter/presentation/screen/reminder_list_screen.dart';
 
 final router = GoRouter(
@@ -72,13 +71,13 @@ final router = GoRouter(
         GoRoute(
           path: 'add',
           builder: (BuildContext context, GoRouterState state) {
-            return const ReminderAddScreen();
+            return const ReminderEditScreen();
           },
         ),
         GoRoute(
           path: ':id',
           builder: (BuildContext context, GoRouterState state) {
-            return const ReminderEditView();
+            return ReminderEditScreen(id: state.pathParameters['id']);
           },
         )
       ],
