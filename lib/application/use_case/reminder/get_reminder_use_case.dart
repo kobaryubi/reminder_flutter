@@ -4,7 +4,8 @@ import 'package:reminder_flutter/domain/entity/reminder_entity.dart';
 class GetReminderUseCase {
   final ReminderService _reminderService;
 
-  GetReminderUseCase(this._reminderService);
+  GetReminderUseCase({required ReminderService reminderService})
+      : _reminderService = reminderService;
 
   Future<ReminderEntity> call({
     required String uid,

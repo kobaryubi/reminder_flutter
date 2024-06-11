@@ -4,6 +4,7 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder_flutter/application/use_case/reminder/add_reminder_use_case.dart';
+import 'package:reminder_flutter/application/use_case/reminder/get_reminder_use_case.dart';
 import 'package:reminder_flutter/infrastructure/repository_impl/firestore_reminder_repository_impl.dart';
 import 'package:reminder_flutter/presentation/state/reminder_list_state.dart';
 import 'package:reminder_flutter/application/service/reminder_service.dart';
@@ -45,6 +46,10 @@ class MainApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<UserState>(
           create: (context) => UserState(),
+        ),
+        Provider<GetReminderUseCase>(
+          create: (BuildContext context) =>
+              GetReminderUseCase(reminderService: _reminderService),
         ),
         Provider<GetRemindersUseCase>(
           create: (BuildContext context) =>
