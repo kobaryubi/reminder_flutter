@@ -14,4 +14,8 @@ abstract class ReminderRepository {
     required String uid,
     required ReminderEntity reminderEntity,
   });
+  Future<void> updateReminder({
+    required String uid,
+    required ReminderEntity reminderEntity,
+  });
 }

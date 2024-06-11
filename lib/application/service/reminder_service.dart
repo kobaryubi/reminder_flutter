@@ -31,4 +31,14 @@ class ReminderService {
       reminderEntity: reminderEntity,
     );
   }
+
+  Future<void> updateReminder({
+    required String uid,
+    required ReminderEntity reminderEntity,
+  }) async {
+    return await _reminderRepository.updateReminder(
+      uid: uid,
+      reminderEntity: reminderEntity,
+    );
+  }
 }
