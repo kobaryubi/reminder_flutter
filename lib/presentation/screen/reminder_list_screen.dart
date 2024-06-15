@@ -41,9 +41,21 @@ class ReminderListScreen extends StatelessWidget {
                 final reminders = snapshot.data!;
                 return ListView.builder(
                   itemCount: reminders.length,
-                  itemBuilder: (context, index) => ReminderListTileWidget(
-                    reminderEntity: reminders[index],
-                  ),
+                  itemBuilder: (context, index) {
+                    return Dismissible(
+                      background: Container(
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.only(right: 16.0),
+                        color: Colors.red,
+                        child: const Icon(Icons.delete, color: Colors.white),
+                      ),
+                      key: Key(reminders[index].id),
+                      direction: DismissDirection.endToStart,
+                      child: ReminderListTileWidget(
+                        reminderEntity: reminders[index],
+                      ),
+                    );
+                  },
                 );
               },
             )

@@ -15,13 +15,8 @@ class ReminderListTileWidget extends StatelessWidget {
 
     return ListTile(
       leading: const Icon(Icons.alarm),
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(reminderEntity.title),
-          Text(formattedRemindAt),
-        ],
-      ),
+      title: Text(reminderEntity.title),
+      subtitle: Text(formattedRemindAt),
       onTap: () => context.push('/${reminderEntity.id}'),
     );
   }
