@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder_flutter/presentation/state/reminder_list_state.dart';
 import 'package:reminder_flutter/presentation/state/user_state.dart';
+import 'package:reminder_flutter/presentation/widget/reminder_list_tile_widget.dart';
 
 class ReminderListScreen extends StatelessWidget {
   const ReminderListScreen({super.key});
@@ -41,23 +41,9 @@ class ReminderListScreen extends StatelessWidget {
                 final reminders = snapshot.data!;
                 return ListView.builder(
                   itemCount: reminders.length,
-                  itemBuilder: (context, index) {
-                    final String formattedRemindAt =
-                        DateFormat('yyyy-MM-dd HH:mm')
-                            .format(reminders[index].remindAt);
-
-                    return ListTile(
-                      leading: const Icon(Icons.alarm),
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(reminders[index].title),
-                          Text(formattedRemindAt),
-                        ],
-                      ),
-                      onTap: () => context.push('/${reminders[index].id}'),
-                    );
-                  },
+                  itemBuilder: (context, index) => ReminderListTileWidget(
+                    reminderEntity: reminders[index],
+                  ),
                 );
               },
             )
