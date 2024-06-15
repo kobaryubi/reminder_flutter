@@ -54,6 +54,15 @@ class ReminderListScreen extends StatelessWidget {
                       child: ReminderListTileWidget(
                         reminderEntity: reminders[index],
                       ),
+                      onDismissed: (DismissDirection direction) async {
+                        await reminderListState.deleteReminder(
+                          id: reminders[index].id,
+                        );
+                        reminders.removeWhere(
+                            (reminder) => reminder.id == reminders[index].id);
+
+                        await reminderListState.getReminders();
+                      },
                     );
                   },
                 );

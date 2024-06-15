@@ -18,4 +18,8 @@ abstract class ReminderRepository {
     required String uid,
     required ReminderEntity reminderEntity,
   });
+  Future<void> deleteReminder({
+    required String uid,
+    required String id,
+  });
 }

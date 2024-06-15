@@ -90,4 +90,17 @@ class FirestoreReminderRepositoryImpl implements ReminderRepository {
         .doc(id)
         .update(reminderMap);
   }
+
+  @override
+  Future<void> deleteReminder({
+    required String uid,
+    required String id,
+  }) async {
+    await firestore
+        .collection(_usersCollection)
+        .doc(uid)
+        .collection(_remindersCollection)
+        .doc(id)
+        .delete();
+  }
 }

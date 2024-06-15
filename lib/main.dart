@@ -4,6 +4,7 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder_flutter/application/use_case/reminder/add_reminder_use_case.dart';
+import 'package:reminder_flutter/application/use_case/reminder/delete_reminder_use_case.dart';
 import 'package:reminder_flutter/application/use_case/reminder/get_reminder_use_case.dart';
 import 'package:reminder_flutter/application/use_case/reminder/update_reminder_use_case.dart';
 import 'package:reminder_flutter/infrastructure/repository_impl/firestore_reminder_repository_impl.dart';
@@ -28,17 +29,27 @@ Future<void> main() async {
       FirestoreReminderRepositoryImpl(FirebaseFirestore.instance);
   final reminderService = ReminderService(reminderRepository);
 
-  runApp(MainApp(
-    reminderService: reminderService,
-  ));
+  runApp(
+    MainApp(
+      reminderService: reminderService,
+      getRemindersUseCase: GetRemindersUseCase(reminderService),
+      deleteReminderUseCase: DeleteReminderUseCase(
+        reminderRepository: reminderRepository,
+      ),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
   final ReminderService _reminderService;
+  final GetRemindersUseCase getRemindersUseCase;
+  final DeleteReminderUseCase deleteReminderUseCase;
 
   const MainApp({
-    required ReminderService reminderService,
     super.key,
+    required this.getRemindersUseCase,
+    required this.deleteReminderUseCase,
+    required ReminderService reminderService,
   }) : _reminderService = reminderService;
 
   @override
@@ -52,10 +63,6 @@ class MainApp extends StatelessWidget {
           create: (BuildContext context) =>
               GetReminderUseCase(reminderService: _reminderService),
         ),
-        Provider<GetRemindersUseCase>(
-          create: (BuildContext context) =>
-              GetRemindersUseCase(_reminderService),
-        ),
         Provider<AddReminderUseCase>(
           create: (BuildContext context) =>
               AddReminderUseCase(_reminderService),
@@ -67,7 +74,8 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProxyProvider<UserState, ReminderListState>(
           create: (BuildContext context) {
             return ReminderListState(
-              getRemindersUseCase: context.read<GetRemindersUseCase>(),
+              getRemindersUseCase: getRemindersUseCase,
+              deleteReminderUseCase: deleteReminderUseCase,
               userState: context.read<UserState>(),
             );
           },
@@ -77,7 +85,8 @@ class MainApp extends StatelessWidget {
             ReminderListState? reminderListState,
           ) {
             return ReminderListState(
-              getRemindersUseCase: context.read<GetRemindersUseCase>(),
+              getRemindersUseCase: getRemindersUseCase,
+              deleteReminderUseCase: deleteReminderUseCase,
               userState: userState,
             );
           },

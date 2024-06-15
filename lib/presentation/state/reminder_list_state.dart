@@ -1,30 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:reminder_flutter/application/use_case/reminder/delete_reminder_use_case.dart';
 import 'package:reminder_flutter/application/use_case/reminder/get_reminders_use_case.dart';
 import 'package:reminder_flutter/domain/entity/reminder_entity.dart';
 import 'package:reminder_flutter/presentation/state/user_state.dart';
 
 class ReminderListState extends ChangeNotifier {
-  final GetRemindersUseCase _getRemindersUseCase;
-  final UserState _userState;
+  final UserState userState;
+  final GetRemindersUseCase getRemindersUseCase;
+  final DeleteReminderUseCase deleteReminderUseCase;
 
   late Future<List<ReminderEntity>> _futureReminderList;
   Future<List<ReminderEntity>> get futureReminderList => _futureReminderList;
 
   ReminderListState({
-    required GetRemindersUseCase getRemindersUseCase,
-    required UserState userState,
-  })  : _getRemindersUseCase = getRemindersUseCase,
-        _userState = userState {
+    required this.userState,
+    required this.getRemindersUseCase,
+    required this.deleteReminderUseCase,
+  }) {
     getReminders();
   }
 
   Future<void> getReminders() async {
-    final uid = _userState.user?.uid;
+    final uid = userState.user?.uid;
     if (uid == null) {
       return;
     }
 
-    _futureReminderList = _getRemindersUseCase(uid: uid);
+    _futureReminderList = getRemindersUseCase(uid: uid);
     notifyListeners();
+  }
+
+  Future<void> deleteReminder({required String id}) async {
+    final uid = userState.user?.uid;
+    if (uid == null) {
+      return;
+    }
+
+    await deleteReminderUseCase(
+      uid: uid,
+      id: id,
+    );
   }
 }
