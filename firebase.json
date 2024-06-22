@@ -1,0 +1,14 @@
+{
+  "flutter": {
+    "platforms": {
+      "ios": {
+        "default": {
+          "projectId": "reminder-staging",
+          "appId": "1:1079738598221:ios:903459ce829d2235b96d04",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      }
+    }
+  }
+}
