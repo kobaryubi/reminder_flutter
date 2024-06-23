@@ -6,16 +6,6 @@ class ReminderService {
 
   ReminderService(this._reminderRepository);
 
-  Future<ReminderEntity> getReminder({
-    required String uid,
-    required String id,
-  }) async {
-    return await _reminderRepository.getReminder(
-      uid: uid,
-      id: id,
-    );
-  }
-
   Future<List<ReminderEntity>> getReminders({
     required String uid,
   }) async {
