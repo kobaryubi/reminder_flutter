@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:reminder_flutter/application/use_case/reminder/add_reminder_use_case.dart';
 import 'package:reminder_flutter/application/use_case/reminder/update_reminder_use_case.dart';
 import 'package:reminder_flutter/domain/entity/reminder_entity.dart';
+import 'package:reminder_flutter/presentation/mixin/reminder_mixin.dart';
 import 'package:reminder_flutter/presentation/state/reminder_list_state.dart';
 import 'package:reminder_flutter/presentation/state/user_state.dart';
 
@@ -17,7 +18,8 @@ class ReminderEditFormWidget extends StatefulWidget {
   State<ReminderEditFormWidget> createState() => _ReminderEditFormWidgetState();
 }
 
-class _ReminderEditFormWidgetState extends State<ReminderEditFormWidget> {
+class _ReminderEditFormWidgetState extends State<ReminderEditFormWidget>
+    with ReminderMixin {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late final TextEditingController _titleController =
       TextEditingController(text: widget.reminderEntity.title);
@@ -27,7 +29,7 @@ class _ReminderEditFormWidgetState extends State<ReminderEditFormWidget> {
     final now = DateTime.now();
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: _remindAt,
+      initialDate: _remindAt.isBefore(now) ? now : _remindAt,
       firstDate: now,
       lastDate: now.add(const Duration(days: 365)),
     );
@@ -128,23 +130,29 @@ class _ReminderEditFormWidgetState extends State<ReminderEditFormWidget> {
                   return;
                 }
 
+                final reminderEntity = widget.reminderEntity.id.isEmpty
+                    ? ReminderEntity(
+                        id: '',
+                        title: _titleController.text,
+                        remindAt: _remindAt,
+                      )
+                    : ReminderEntity(
+                        id: widget.reminderEntity.id,
+                        title: _titleController.text,
+                        remindAt: _remindAt,
+                      );
+
                 widget.reminderEntity.id.isEmpty
                     ? await addReminderUseCase(
                         uid: uid,
-                        reminderEntity: ReminderEntity(
-                          id: '',
-                          title: _titleController.text,
-                          remindAt: _remindAt,
-                        ),
+                        reminderEntity: reminderEntity,
                       )
                     : await updateReminderUseCase(
                         uid: uid,
-                        reminderEntity: ReminderEntity(
-                          id: widget.reminderEntity.id,
-                          title: _titleController.text,
-                          remindAt: _remindAt,
-                        ),
+                        reminderEntity: reminderEntity,
                       );
+
+                scheduleLocalNotification(reminderEntity: reminderEntity);
 
                 _titleController.clear();
 

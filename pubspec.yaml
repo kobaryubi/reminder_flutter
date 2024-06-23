@@ -20,6 +20,7 @@ dependencies:
   intl: ^0.18.1
   provider: ^6.1.2
   timezone: ^0.9.3
+  uuid: ^4.4.0
 
 dev_dependencies:
   flutter_test:
