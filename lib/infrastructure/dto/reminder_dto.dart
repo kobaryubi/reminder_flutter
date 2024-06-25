@@ -1,23 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:reminder_flutter/infrastructure/converter/date_time_converter.dart';
 
-class ReminderDto {
-  final String id;
-  final String title;
-  final DateTime remindAt;
+part 'reminder_dto.freezed.dart';
+part 'reminder_dto.g.dart';
 
-  const ReminderDto({
-    required this.id,
-    required this.title,
-    required this.remindAt,
-  });
+@freezed
+class ReminderDto with _$ReminderDto {
+  const factory ReminderDto({
+    required String id,
+    required String title,
+    @DateTimeConverter() required DateTime remindAt,
+  }) = _ReminderDto;
 
-  factory ReminderDto.fromJson(Map<String, dynamic> json) {
-    return ReminderDto(
-      id: json['id'],
-      title: json['title'],
-      remindAt: DateTime.parse(json['remindAt']),
-    );
-  }
+  factory ReminderDto.fromJson(Map<String, Object?> json) =>
+      _$ReminderDtoFromJson(json);
 
   factory ReminderDto.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
