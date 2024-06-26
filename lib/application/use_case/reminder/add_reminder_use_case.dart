@@ -1,16 +1,16 @@
-import 'package:reminder_flutter/application/service/reminder_service.dart';
 import 'package:reminder_flutter/domain/entity/reminder_entity.dart';
+import 'package:reminder_flutter/domain/repository/reminder_repository.dart';
 
 class AddReminderUseCase {
-  final ReminderService _reminderService;
+  final ReminderRepository reminderRepository;
 
-  AddReminderUseCase(this._reminderService);
+  AddReminderUseCase({required this.reminderRepository});
 
   Future<void> call({
     required String uid,
     required ReminderEntity reminderEntity,
   }) async {
-    return await _reminderService.addReminder(
+    return await reminderRepository.addReminder(
       uid: uid,
       reminderEntity: reminderEntity,
     );
