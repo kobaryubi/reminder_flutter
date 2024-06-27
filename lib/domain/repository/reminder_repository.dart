@@ -7,7 +7,7 @@ abstract class ReminderRepository {
     required String uid,
     required String id,
   });
-  Future<List<ReminderEntity>> getReminders({
+  Future<List<ReminderEntity>> getReminderList({
     required String uid,
   });
   Future<void> addReminder({
