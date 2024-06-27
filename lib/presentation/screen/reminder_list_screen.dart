@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reminder_flutter/presentation/provider/is_logged_in_provider.dart';
+import 'package:reminder_flutter/presentation/provider/reminder_list_provider.dart';
 import 'package:reminder_flutter/presentation/widget/reminder_list_tile_widget.dart';
 
 class ReminderListScreen extends HookConsumerWidget {
@@ -9,7 +10,7 @@ class ReminderListScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final reminderListState = context.watch<ReminderListState>();
+    final reminderListAsyncValue = ref.watch(reminderListProvider);
     final isLoggedIn = ref.watch(isLoggedInProvider);
 
     return Scaffold(
@@ -24,22 +25,16 @@ class ReminderListScreen extends HookConsumerWidget {
         ],
       ),
       body: isLoggedIn
-          ? FutureBuilder(
-              future: reminderListState.futureReminderList,
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                }
-
-                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          ? reminderListAsyncValue.when(
+              data: (reminderList) {
+                if (reminderList.isEmpty) {
                   return const Center(
                     child: Text('No reminders'),
                   );
                 }
 
-                final reminders = snapshot.data!;
                 return ListView.builder(
-                  itemCount: reminders.length,
+                  itemCount: reminderList.length,
                   itemBuilder: (context, index) {
                     return Dismissible(
                       background: Container(
@@ -48,24 +43,28 @@ class ReminderListScreen extends HookConsumerWidget {
                         color: Colors.red,
                         child: const Icon(Icons.delete, color: Colors.white),
                       ),
-                      key: Key(reminders[index].id),
+                      key: Key(reminderList[index].id),
                       direction: DismissDirection.endToStart,
                       child: ReminderListTileWidget(
-                        reminderEntity: reminders[index],
+                        reminderEntity: reminderList[index],
                       ),
                       onDismissed: (DismissDirection direction) async {
-                        await reminderListState.deleteReminder(
-                          id: reminders[index].id,
-                        );
-                        reminders.removeWhere(
-                            (reminder) => reminder.id == reminders[index].id);
-
-                        await reminderListState.getReminders();
+                        await ref
+                            .read(reminderListProvider.notifier)
+                            .deleteReminder(
+                              id: reminderList[index].id,
+                            );
                       },
                     );
                   },
                 );
               },
+              loading: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              error: (error, stackTrace) => Center(
+                child: Text('Error: $error'),
+              ),
             )
           : Center(
               child: ElevatedButton(
