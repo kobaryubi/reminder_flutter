@@ -38,7 +38,7 @@ class FirestoreReminderRepositoryImpl implements ReminderRepository {
   }
 
   @override
-  Future<List<ReminderEntity>> getReminders({
+  Future<List<ReminderEntity>> getReminderList({
     required String uid,
   }) async {
     final querySnapshot = await firestore

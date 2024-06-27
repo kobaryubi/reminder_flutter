@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:reminder_flutter/presentation/state/reminder_list_state.dart';
-import 'package:reminder_flutter/presentation/state/user_state.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:reminder_flutter/presentation/provider/is_logged_in_provider.dart';
 import 'package:reminder_flutter/presentation/widget/reminder_list_tile_widget.dart';
 
-class ReminderListScreen extends StatelessWidget {
+class ReminderListScreen extends HookConsumerWidget {
   const ReminderListScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final reminderListState = context.watch<ReminderListState>();
-    final userState = context.watch<UserState>();
+    final isLoggedIn = ref.watch(isLoggedInProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -24,7 +23,7 @@ class ReminderListScreen extends StatelessWidget {
           )
         ],
       ),
-      body: userState.isLoggedIn
+      body: isLoggedIn
           ? FutureBuilder(
               future: reminderListState.futureReminderList,
               builder: (context, snapshot) {
