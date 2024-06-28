@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:reminder_flutter/domain/entity/reminder_entity.dart';
 import 'package:reminder_flutter/presentation/mixin/reminder_mixin.dart';
+import 'package:reminder_flutter/presentation/provider/reminder_list_provider.dart';
 import 'package:reminder_flutter/presentation/provider/reminder_provider.dart';
 
 class ReminderEditFormWidget extends StatefulHookConsumerWidget {
@@ -143,6 +144,8 @@ class ReminderEditFormWidgetState extends ConsumerState<ReminderEditFormWidget>
                         );
 
                 scheduleLocalNotification(reminderEntity: reminderEntity);
+
+                ref.invalidate(reminderListProvider);
 
                 _titleController.clear();
 
