@@ -117,8 +117,6 @@ class ReminderEditFormWidgetState extends ConsumerState<ReminderEditFormWidget>
                   return;
                 }
 
-                final reminderListState = context.read<ReminderListState>();
-
                 final reminderEntity = widget.reminderEntity.id.isEmpty
                     ? ReminderEntity(
                         id: '',
@@ -147,8 +145,6 @@ class ReminderEditFormWidgetState extends ConsumerState<ReminderEditFormWidget>
                 scheduleLocalNotification(reminderEntity: reminderEntity);
 
                 _titleController.clear();
-
-                await reminderListState.getReminders();
 
                 if (!context.mounted) {
                   return;
