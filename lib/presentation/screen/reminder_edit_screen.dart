@@ -11,9 +11,9 @@ class ReminderEditScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final reminderAsyncData = id != null
-        ? ref.read(reminderProvider(id: id!))
-        : AsyncData(ReminderEntity(
+    final reminderAsyncValue = id != null
+        ? ref.watch(reminderProvider(id: id!))
+        : AsyncValue.data(ReminderEntity(
             id: '',
             title: '',
             remindAt: DateTime.now(),
@@ -23,7 +23,7 @@ class ReminderEditScreen extends HookConsumerWidget {
       appBar: AppBar(
         title: const Text('Add Reminder'),
       ),
-      body: reminderAsyncData.when(
+      body: reminderAsyncValue.when(
         data: (reminderEntity) =>
             ReminderEditFormWidget(reminderEntity: reminderEntity),
         loading: () => const Center(
