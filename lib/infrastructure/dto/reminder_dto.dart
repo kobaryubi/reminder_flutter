@@ -7,6 +7,8 @@ part 'reminder_dto.g.dart';
 
 @freezed
 class ReminderDto with _$ReminderDto {
+  const ReminderDto._();
+
   const factory ReminderDto({
     required String id,
     required String title,

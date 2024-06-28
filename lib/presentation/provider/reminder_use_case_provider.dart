@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:reminder_flutter/application/use_case/reminder/add_reminder_use_case.dart';
 import 'package:reminder_flutter/application/use_case/reminder/delete_reminder_use_case.dart';
 import 'package:reminder_flutter/application/use_case/reminder/get_reminder_use_case.dart';
 import 'package:reminder_flutter/application/use_case/reminder/get_reminder_list_use_case.dart';
@@ -38,6 +39,13 @@ DeleteReminderUseCase deleteReminderUseCase(DeleteReminderUseCaseRef ref) {
 @riverpod
 UpdateReminderUseCase updateReminderUseCase(UpdateReminderUseCaseRef ref) {
   return UpdateReminderUseCase(
+    reminderRepository: ref.read(reminderRepositoryProvider),
+  );
+}
+
+@riverpod
+AddReminderUseCase addReminderUseCase(AddReminderUseCaseRef ref) {
+  return AddReminderUseCase(
     reminderRepository: ref.read(reminderRepositoryProvider),
   );
 }

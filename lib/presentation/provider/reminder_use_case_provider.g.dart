@@ -94,5 +94,22 @@ final updateReminderUseCaseProvider =
 
 typedef UpdateReminderUseCaseRef
     = AutoDisposeProviderRef<UpdateReminderUseCase>;
+String _$addReminderUseCaseHash() =>
+    r'42260de4f8c85e6450b79912eb7f93168e168567';
+
+/// See also [addReminderUseCase].
+@ProviderFor(addReminderUseCase)
+final addReminderUseCaseProvider =
+    AutoDisposeProvider<AddReminderUseCase>.internal(
+  addReminderUseCase,
+  name: r'addReminderUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$addReminderUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef AddReminderUseCaseRef = AutoDisposeProviderRef<AddReminderUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

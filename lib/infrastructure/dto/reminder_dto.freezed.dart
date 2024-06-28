@@ -119,11 +119,12 @@ class __$$ReminderDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ReminderDtoImpl implements _ReminderDto {
+class _$ReminderDtoImpl extends _ReminderDto {
   const _$ReminderDtoImpl(
       {required this.id,
       required this.title,
-      @DateTimeConverter() required this.remindAt});
+      @DateTimeConverter() required this.remindAt})
+      : super._();
 
   factory _$ReminderDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$ReminderDtoImplFromJson(json);
@@ -170,12 +171,13 @@ class _$ReminderDtoImpl implements _ReminderDto {
   }
 }
 
-abstract class _ReminderDto implements ReminderDto {
+abstract class _ReminderDto extends ReminderDto {
   const factory _ReminderDto(
           {required final String id,
           required final String title,
           @DateTimeConverter() required final DateTime remindAt}) =
       _$ReminderDtoImpl;
+  const _ReminderDto._() : super._();
 
   factory _ReminderDto.fromJson(Map<String, dynamic> json) =
       _$ReminderDtoImpl.fromJson;
