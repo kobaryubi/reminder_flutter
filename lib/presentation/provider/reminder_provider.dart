@@ -20,6 +20,20 @@ class Reminder extends _$Reminder {
     );
   }
 
+  Future<void> addReminder({
+    required ReminderEntity reminderEntity,
+  }) async {
+    final uid = ref.read(userProvider)?.uid;
+    if (uid == null) {
+      throw Exception('User is not signed in');
+    }
+
+    await ref.read(addReminderUseCaseProvider)(
+      uid: uid,
+      reminderEntity: reminderEntity,
+    );
+  }
+
   Future<void> updateReminder({
     required ReminderEntity reminderEntity,
   }) async {
