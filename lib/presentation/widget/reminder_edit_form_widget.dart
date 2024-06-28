@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:reminder_flutter/application/use_case/reminder/add_reminder_use_case.dart';
-import 'package:reminder_flutter/application/use_case/reminder/update_reminder_use_case.dart';
 import 'package:reminder_flutter/domain/entity/reminder_entity.dart';
 import 'package:reminder_flutter/presentation/mixin/reminder_mixin.dart';
-import 'package:reminder_flutter/presentation/state/reminder_list_state.dart';
-import 'package:reminder_flutter/presentation/state/user_state.dart';
+import 'package:reminder_flutter/presentation/provider/reminder_provider.dart';
 
-class ReminderEditFormWidget extends StatefulWidget {
+class ReminderEditFormWidget extends StatefulHookConsumerWidget {
   final ReminderEntity reminderEntity;
 
   const ReminderEditFormWidget({super.key, required this.reminderEntity});
 
   @override
-  State<ReminderEditFormWidget> createState() => _ReminderEditFormWidgetState();
+  ReminderEditFormWidgetState createState() => ReminderEditFormWidgetState();
 }
 
-class _ReminderEditFormWidgetState extends State<ReminderEditFormWidget>
+class ReminderEditFormWidgetState extends ConsumerState<ReminderEditFormWidget>
     with ReminderMixin {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late final TextEditingController _titleController =
@@ -120,15 +117,7 @@ class _ReminderEditFormWidgetState extends State<ReminderEditFormWidget>
                   return;
                 }
 
-                final addReminderUseCase = context.read<AddReminderUseCase>();
-                final updateReminderUseCase =
-                    context.read<UpdateReminderUseCase>();
                 final reminderListState = context.read<ReminderListState>();
-                final uid = context.read<UserState>().user?.uid;
-
-                if (uid == null) {
-                  return;
-                }
 
                 final reminderEntity = widget.reminderEntity.id.isEmpty
                     ? ReminderEntity(
@@ -143,14 +132,17 @@ class _ReminderEditFormWidgetState extends State<ReminderEditFormWidget>
                       );
 
                 widget.reminderEntity.id.isEmpty
-                    ? await addReminderUseCase(
-                        uid: uid,
-                        reminderEntity: reminderEntity,
-                      )
-                    : await updateReminderUseCase(
-                        uid: uid,
-                        reminderEntity: reminderEntity,
-                      );
+                    ? await ref
+                        .read(reminderProvider(id: '').notifier)
+                        .addReminder(
+                          reminderEntity: reminderEntity,
+                        )
+                    : await ref
+                        .read(reminderProvider(id: widget.reminderEntity.id)
+                            .notifier)
+                        .updateReminder(
+                          reminderEntity: reminderEntity,
+                        );
 
                 scheduleLocalNotification(reminderEntity: reminderEntity);
 

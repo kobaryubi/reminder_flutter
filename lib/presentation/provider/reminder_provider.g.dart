@@ -6,7 +6,7 @@ part of 'reminder_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$reminderHash() => r'470543b883b09cba765de21a7063677cbd3e0c37';
+String _$reminderHash() => r'f10b91b3cea1d9aa001a1a13d5fda6b66acfa79f';
 
 /// Copied from Dart SDK
 class _SystemHash {
