@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -21,54 +22,6 @@ class ReminderEditFormWidgetState extends ConsumerState<ReminderEditFormWidget>
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late final TextEditingController _titleController =
       TextEditingController(text: widget.reminderEntity.title);
-  late DateTime _remindAt = widget.reminderEntity.remindAt;
-
-  void _pickNotificationDate(BuildContext context) async {
-    final now = DateTime.now();
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: _remindAt.isBefore(now) ? now : _remindAt,
-      firstDate: now,
-      lastDate: now.add(const Duration(days: 365)),
-    );
-
-    if (pickedDate == null || pickedDate == _remindAt) {
-      return;
-    }
-
-    if (!context.mounted) {
-      return;
-    }
-
-    final TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.fromDateTime(_remindAt),
-    );
-
-    if (pickedTime == null) {
-      setState(() {
-        _remindAt = DateTime(
-          pickedDate.year,
-          pickedDate.month,
-          pickedDate.day,
-          _remindAt.hour,
-          _remindAt.minute,
-        );
-      });
-
-      return;
-    }
-
-    setState(() {
-      _remindAt = DateTime(
-        pickedDate.year,
-        pickedDate.month,
-        pickedDate.day,
-        pickedTime.hour,
-        pickedTime.minute,
-      );
-    });
-  }
 
   @override
   void dispose() {
@@ -78,7 +31,56 @@ class ReminderEditFormWidgetState extends ConsumerState<ReminderEditFormWidget>
 
   @override
   Widget build(BuildContext context) {
-    String formattedRemindAt = DateFormat('yyyy-MM-dd HH:mm').format(_remindAt);
+    final remindAt = useState(widget.reminderEntity.remindAt);
+    final isSubmitButtonDisabled = useState(false);
+
+    final pickNotificationDate = useCallback((BuildContext context) async {
+      final now = DateTime.now();
+      final DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: remindAt.value.isBefore(now) ? now : remindAt.value,
+        firstDate: now,
+        lastDate: now.add(const Duration(days: 365)),
+      );
+
+      if (pickedDate == null || pickedDate == remindAt.value) {
+        return;
+      }
+
+      if (!context.mounted) {
+        return;
+      }
+
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(remindAt.value),
+      );
+
+      if (pickedTime == null) {
+        remindAt.value = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          remindAt.value.hour,
+          remindAt.value.minute,
+        );
+
+        return;
+      }
+
+      remindAt.value = DateTime(
+        pickedDate.year,
+        pickedDate.month,
+        pickedDate.day,
+        pickedTime.hour,
+        pickedTime.minute,
+      );
+    }, [remindAt.value]);
+
+    useEffect(() {
+      isSubmitButtonDisabled.value = DateTime.now().isAfter(remindAt.value);
+      return;
+    }, [remindAt.value]);
 
     return Form(
       key: _formKey,
@@ -104,56 +106,63 @@ class ReminderEditFormWidgetState extends ConsumerState<ReminderEditFormWidget>
             const SizedBox(height: 16.0),
             Row(
               children: [
-                Expanded(child: Text(formattedRemindAt)),
+                Expanded(
+                  child: Text(
+                    DateFormat('yyyy-MM-dd HH:mm').format(remindAt.value),
+                  ),
+                ),
                 IconButton(
                   icon: const Icon(Icons.calendar_today),
-                  onPressed: () => _pickNotificationDate(context),
+                  onPressed: () => pickNotificationDate(context),
                 ),
               ],
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: () async {
-                if (!_formKey.currentState!.validate()) {
-                  return;
-                }
+              onPressed: isSubmitButtonDisabled.value
+                  ? null
+                  : () async {
+                      if (!_formKey.currentState!.validate()) {
+                        return;
+                      }
 
-                final reminderEntity = widget.reminderEntity.id.isEmpty
-                    ? ReminderEntity(
-                        id: '',
-                        title: _titleController.text,
-                        remindAt: _remindAt,
-                      )
-                    : ReminderEntity(
-                        id: widget.reminderEntity.id,
-                        title: _titleController.text,
-                        remindAt: _remindAt,
-                      );
+                      final reminderEntity = widget.reminderEntity.id.isEmpty
+                          ? ReminderEntity(
+                              id: '',
+                              title: _titleController.text,
+                              remindAt: remindAt.value,
+                            )
+                          : ReminderEntity(
+                              id: widget.reminderEntity.id,
+                              title: _titleController.text,
+                              remindAt: remindAt.value,
+                            );
 
-                widget.reminderEntity.id.isEmpty
-                    ? await ref
-                        .read(reminderProvider(id: '').notifier)
-                        .addReminder(
-                          reminderEntity: reminderEntity,
-                        )
-                    : await ref
-                        .read(reminderProvider(id: widget.reminderEntity.id)
-                            .notifier)
-                        .updateReminder(
-                          reminderEntity: reminderEntity,
-                        );
+                      widget.reminderEntity.id.isEmpty
+                          ? await ref
+                              .read(reminderProvider(id: '').notifier)
+                              .addReminder(
+                                reminderEntity: reminderEntity,
+                              )
+                          : await ref
+                              .read(
+                                  reminderProvider(id: widget.reminderEntity.id)
+                                      .notifier)
+                              .updateReminder(
+                                reminderEntity: reminderEntity,
+                              );
 
-                scheduleLocalNotification(reminderEntity: reminderEntity);
+                      scheduleLocalNotification(reminderEntity: reminderEntity);
 
-                ref.invalidate(reminderListProvider);
+                      ref.invalidate(reminderListProvider);
 
-                _titleController.clear();
+                      _titleController.clear();
 
-                if (!context.mounted) {
-                  return;
-                }
-                context.pop();
-              },
+                      if (!context.mounted) {
+                        return;
+                      }
+                      context.pop();
+                    },
               child: const Text('Submit'),
             ),
           ],
