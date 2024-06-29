@@ -21,7 +21,7 @@ class ReminderEditScreen extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Reminder'),
+        title: Text(id == null ? 'Add Reminder' : 'Edit Reminder'),
       ),
       body: reminderAsyncValue.when(
         data: (reminderEntity) =>
