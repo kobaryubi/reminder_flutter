@@ -32,6 +32,9 @@ class ReminderList extends _$ReminderList {
       id: id,
     );
 
+    final reminderList = await future;
+    reminderList.removeWhere((reminder) => reminder.id == id);
+
     ref.invalidateSelf();
   }
 }
