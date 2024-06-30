@@ -4,7 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:reminder_flutter/presentation/screen/reminder_edit_screen.dart';
 import 'package:reminder_flutter/presentation/screen/reminder_list_screen.dart';
 
+final GlobalKey<NavigatorState> _rootNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'root');
+
 final router = GoRouter(
+  navigatorKey: _rootNavigatorKey,
   routes: <RouteBase>[
     GoRoute(
       path: '/',
