@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reminder_flutter/presentation/provider/is_logged_in_provider.dart';
@@ -12,6 +13,9 @@ class ReminderListScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final reminderListAsyncValue = ref.watch(reminderListProvider);
     final isLoggedIn = ref.watch(isLoggedInProvider);
+
+    final colorScheme =
+        useMemoized(() => Theme.of(context).colorScheme, [context]);
 
     return Scaffold(
       appBar: AppBar(
@@ -40,8 +44,11 @@ class ReminderListScreen extends HookConsumerWidget {
                       background: Container(
                         alignment: Alignment.centerRight,
                         padding: const EdgeInsets.only(right: 16.0),
-                        color: Colors.red,
-                        child: const Icon(Icons.delete, color: Colors.white),
+                        color: colorScheme.error,
+                        child: Icon(
+                          Icons.delete,
+                          color: colorScheme.onError,
+                        ),
                       ),
                       key: Key(reminderList[index].id),
                       direction: DismissDirection.endToStart,
