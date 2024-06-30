@@ -1,6 +1,7 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:reminder_flutter/presentation/router/router_paths.dart';
 import 'package:reminder_flutter/presentation/screen/reminder_edit_screen.dart';
 import 'package:reminder_flutter/presentation/screen/reminder_list_screen.dart';
 
@@ -9,9 +10,10 @@ final GlobalKey<NavigatorState> _rootNavigatorKey =
 
 final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
+  initialLocation: RoutePaths.home,
   routes: <RouteBase>[
     GoRoute(
-      path: '/',
+      path: RoutePaths.home,
       builder: (BuildContext context, GoRouterState state) {
         return const ReminderListScreen();
       },
