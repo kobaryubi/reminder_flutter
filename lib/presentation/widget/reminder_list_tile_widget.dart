@@ -16,9 +16,11 @@ class ReminderListTileWidget extends HookConsumerWidget {
       () => DateFormat('yyyy-MM-dd HH:mm').format(reminderEntity.remindAt),
       [reminderEntity.remindAt],
     );
+    final isPastDue = useMemoized(
+        () => DateTime.now().isAfter(reminderEntity.remindAt),
+        [reminderEntity.remindAt]);
     final textStyle = useMemoized(
       () {
-        final isPastDue = DateTime.now().isAfter(reminderEntity.remindAt);
         final colorScheme = Theme.of(context).colorScheme;
 
         return Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -27,11 +29,14 @@ class ReminderListTileWidget extends HookConsumerWidget {
                   : colorScheme.onPrimaryContainer,
             );
       },
-      [context],
+      [context, isPastDue],
     );
 
     return ListTile(
-      leading: const Icon(Icons.alarm),
+      leading: Icon(
+        Icons.alarm,
+        color: isPastDue ? Theme.of(context).colorScheme.error : null,
+      ),
       title: Text(reminderEntity.title, style: textStyle),
       subtitle: Text(formattedRemindAt, style: textStyle),
       onTap: () => context.push('/${reminderEntity.id}'),
