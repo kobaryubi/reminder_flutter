@@ -48,8 +48,17 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = ColorScheme.fromSeed(seedColor: Colors.lightBlue);
+
     return MaterialApp.router(
       routerConfig: router,
+      theme: ThemeData(
+        colorScheme: colorScheme,
+        appBarTheme: AppBarTheme(
+          backgroundColor: colorScheme.primary,
+          foregroundColor: colorScheme.onPrimary,
+        ),
+      ),
     );
   }
 }
