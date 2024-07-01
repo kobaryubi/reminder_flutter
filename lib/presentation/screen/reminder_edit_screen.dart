@@ -19,18 +19,13 @@ class ReminderEditScreen extends HookConsumerWidget {
             remindAt: DateTime.now(),
           ));
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(id == null ? 'Add Reminder' : 'Edit Reminder'),
+    return reminderAsyncValue.when(
+      data: (reminderEntity) =>
+          ReminderEditFormWidget(reminderEntity: reminderEntity),
+      loading: () => const Center(
+        child: CircularProgressIndicator(),
       ),
-      body: reminderAsyncValue.when(
-        data: (reminderEntity) =>
-            ReminderEditFormWidget(reminderEntity: reminderEntity),
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
-        error: (error, stackTrace) => Text('$error'),
-      ),
+      error: (error, stackTrace) => Text('$error'),
     );
   }
 }
