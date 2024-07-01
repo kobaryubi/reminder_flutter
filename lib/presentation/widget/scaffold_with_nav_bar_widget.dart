@@ -22,9 +22,6 @@ class ScaffoldWithNavBar extends HookConsumerWidget {
     }, []);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Reminder'),
-      ),
       body: navigationShell,
       bottomNavigationBar: NavigationBar(
         destinations: const [

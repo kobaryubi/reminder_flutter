@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reminder_flutter/presentation/provider/is_logged_in_provider.dart';
 import 'package:reminder_flutter/presentation/provider/reminder_list_provider.dart';
-import 'package:reminder_flutter/presentation/widget/bottom_navigation_bar_widget.dart';
+import 'package:reminder_flutter/presentation/router/route_paths.dart';
 import 'package:reminder_flutter/presentation/widget/reminder_list_tile_widget.dart';
 
 class ReminderListScreen extends HookConsumerWidget {
@@ -25,7 +25,7 @@ class ReminderListScreen extends HookConsumerWidget {
           IconButton(
             icon: const Icon(Icons.add),
             tooltip: 'Add a reminder',
-            onPressed: () => context.push('/add'),
+            onPressed: () => context.push(RoutePaths.reminderAdd),
           )
         ],
       ),
@@ -80,7 +80,6 @@ class ReminderListScreen extends HookConsumerWidget {
                 child: const Text('Sign in'),
               ),
             ),
-      bottomNavigationBar: const BottomNavigationBarWidget(),
     );
   }
 }

@@ -39,7 +39,7 @@ class ReminderListTileWidget extends HookConsumerWidget {
       ),
       title: Text(reminderEntity.title, style: textStyle),
       subtitle: Text(formattedRemindAt, style: textStyle),
-      onTap: () => context.push('/${reminderEntity.id}'),
+      onTap: () => context.push('/reminder/${reminderEntity.id}'),
     );
   }
 }
