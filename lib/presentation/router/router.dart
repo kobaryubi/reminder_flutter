@@ -102,7 +102,13 @@ final router = GoRouter(
               builder: (BuildContext context, GoRouterState state) {
                 return Scaffold(
                   appBar: AppBar(title: const Text('Profile')),
-                  body: const ProfileScreen(),
+                  body: ProfileScreen(actions: [
+                    SignedOutAction(
+                      (context) {
+                        context.go(RoutePaths.signIn);
+                      },
+                    )
+                  ]),
                 );
               },
             ),
