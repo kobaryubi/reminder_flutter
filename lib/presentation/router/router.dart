@@ -10,4 +10,7 @@ final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: RoutePaths.home,
   routes: $appRoutes,
+  errorBuilder: (BuildContext context, GoRouterState state) {
+    return ErrorRoute(error: state.error!).build(context, state);
+  },
 );
