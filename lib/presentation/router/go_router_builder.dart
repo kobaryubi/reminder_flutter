@@ -5,6 +5,27 @@ import 'package:reminder_flutter/presentation/router/route_paths.dart';
 
 part 'go_router_builder.g.dart';
 
+class ErrorRoute extends GoRouteData {
+  final Exception error;
+
+  ErrorRoute({required this.error});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Page Not Found'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {},
+          child: const Text('Home'),
+        ),
+      ),
+    );
+  }
+}
+
 @TypedGoRoute<SignInRoute>(path: RoutePaths.signIn)
 class SignInRoute extends GoRouteData {
   const SignInRoute();
