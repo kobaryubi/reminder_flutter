@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart' as fba;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -132,6 +133,14 @@ class ProfileRouteData extends GoRouteData {
         actions: [
           SignedOutAction(
             (context) {
+              const SignInRoute().go(context);
+            },
+          ),
+          AccountDeletedAction(
+            (
+              BuildContext context,
+              fba.User user,
+            ) {
               const SignInRoute().go(context);
             },
           )
