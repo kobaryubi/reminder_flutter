@@ -39,6 +39,7 @@ dev_dependencies:
   go_router_builder: ^2.7.0
   build_verify: ^3.1.0
   flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.0
 
 flutter:
   uses-material-design: true
