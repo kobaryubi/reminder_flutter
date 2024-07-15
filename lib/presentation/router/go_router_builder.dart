@@ -38,43 +38,14 @@ class SignInRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) {
     return SignInScreen(
       actions: [
-        AuthStateChangeAction<UserCreated>(
-            (BuildContext context, UserCreated state) async {
-          final user = state.credential.user;
-          if (user == null || user.emailVerified) {
-            return;
-          }
+        AuthStateChangeAction<AuthState>(
+            (BuildContext context, AuthState state) async {
+          final user = switch (state) {
+            SignedIn(user: final user) => user,
+            _ => null,
+          };
 
-          await user.sendEmailVerification();
-          if (!context.mounted) {
-            return;
-          }
-
-          const snackBar = SnackBar(
-            content:
-                Text('Please check your email to verify your email address'),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }),
-        AuthStateChangeAction<SignedIn>(
-            (BuildContext context, SignedIn state) async {
-          final user = state.user;
           if (user == null) {
-            return;
-          }
-
-          if (!user.emailVerified) {
-            await user.sendEmailVerification();
-            if (!context.mounted) {
-              return;
-            }
-
-            const snackBar = SnackBar(
-              content:
-                  Text('Please check your email to verify your email address'),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
             return;
           }
 
