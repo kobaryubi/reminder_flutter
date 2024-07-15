@@ -35,31 +35,36 @@ class ReminderListScreen extends HookConsumerWidget {
             );
           }
 
-          return ListView.builder(
-            itemCount: reminderList.length,
-            itemBuilder: (context, index) {
-              return Dismissible(
-                background: Container(
-                  alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.only(right: 16.0),
-                  color: colorScheme.error,
-                  child: Icon(
-                    Icons.delete,
-                    color: colorScheme.onError,
+          return RefreshIndicator(
+            onRefresh: () => ref.refresh(reminderListProvider.future),
+            child: ListView.builder(
+              itemCount: reminderList.length,
+              itemBuilder: (context, index) {
+                return Dismissible(
+                  background: Container(
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(right: 16.0),
+                    color: colorScheme.error,
+                    child: Icon(
+                      Icons.delete,
+                      color: colorScheme.onError,
+                    ),
                   ),
-                ),
-                key: Key(reminderList[index].id),
-                direction: DismissDirection.endToStart,
-                child: ReminderListTileWidget(
-                  reminderEntity: reminderList[index],
-                ),
-                onDismissed: (DismissDirection direction) async {
-                  await ref.read(reminderListProvider.notifier).deleteReminder(
-                        id: reminderList[index].id,
-                      );
-                },
-              );
-            },
+                  key: Key(reminderList[index].id),
+                  direction: DismissDirection.endToStart,
+                  child: ReminderListTileWidget(
+                    reminderEntity: reminderList[index],
+                  ),
+                  onDismissed: (DismissDirection direction) async {
+                    await ref
+                        .read(reminderListProvider.notifier)
+                        .deleteReminder(
+                          id: reminderList[index].id,
+                        );
+                  },
+                );
+              },
+            ),
           );
         },
         loading: () => const Center(
