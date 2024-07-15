@@ -107,14 +107,6 @@ class ProfileRouteData extends GoRouteData {
               const SignInRoute().go(context);
             },
           ),
-          AccountDeletedAction(
-            (
-              BuildContext context,
-              fba.User user,
-            ) {
-              const SignInRoute().go(context);
-            },
-          )
         ],
       ),
     );
