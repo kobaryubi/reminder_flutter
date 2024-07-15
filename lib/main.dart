@@ -5,7 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reminder_flutter/firebase_options.dart';
-import 'package:reminder_flutter/presentation/router/router.dart';
+import 'package:reminder_flutter/presentation/provider/router_provider.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -43,12 +43,13 @@ Future<void> main() async {
   );
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends HookConsumerWidget {
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = ColorScheme.fromSeed(seedColor: Colors.lightBlue);
+    final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
       routerConfig: router,
