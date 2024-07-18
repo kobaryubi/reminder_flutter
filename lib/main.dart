@@ -46,6 +46,10 @@ Future<void> main() async {
     }
   };
 
+  PlatformDispatcher.instance.onError = (error, stack) {
+    return true;
+  };
+
   runApp(
     const ProviderScope(
       child: MainApp(),
