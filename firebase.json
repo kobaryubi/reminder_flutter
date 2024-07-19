@@ -4,7 +4,7 @@
       "ios": {
         "default": {
           "projectId": "reminder-staging",
-          "appId": "1:1079738598221:ios:903459ce829d2235b96d04",
+          "appId": "1:1079738598221:ios:d7ef02fb2cfeed53b96d04",
           "uploadDebugSymbols": false,
           "fileOutput": "ios/Runner/GoogleService-Info.plist"
         }
@@ -13,13 +13,11 @@
         "lib/firebase_options.dart": {
           "projectId": "reminder-staging",
           "configurations": {
-            "ios": "1:1079738598221:ios:903459ce829d2235b96d04"
+            "ios": "1:1079738598221:ios:d7ef02fb2cfeed53b96d04"
           }
         }
       }
     }
   },
-  "firestore": {
-    "rules": "firestore.rules"
-  }
+  "firestore": { "rules": "firestore.rules" }
 }
