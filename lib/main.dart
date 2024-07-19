@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -41,12 +42,14 @@ Future<void> main() async {
 
   FlutterError.onError = (details) {
     FlutterError.presentError(details);
+    FirebaseCrashlytics.instance.recordFlutterFatalError(details);
     if (kReleaseMode) {
       exit(1);
     }
   };
 
   PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
 
