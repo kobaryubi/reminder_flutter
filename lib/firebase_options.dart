@@ -54,11 +54,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCtyipdRE4UTipKVdWG9Zn5CcSZWF4fc4o',
-    appId: '1:1079738598221:ios:903459ce829d2235b96d04',
+    appId: '1:1079738598221:ios:d7ef02fb2cfeed53b96d04',
     messagingSenderId: '1079738598221',
     projectId: 'reminder-staging',
     storageBucket: 'reminder-staging.appspot.com',
-    iosBundleId: 'com.example.reminderFlutter',
+    iosBundleId: 'com.masahikokobayashi.reminder',
   );
 
 }
