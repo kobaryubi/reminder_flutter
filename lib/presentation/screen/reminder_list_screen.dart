@@ -58,7 +58,7 @@ class ReminderListScreen extends HookConsumerWidget {
                   onDismissed: (DismissDirection direction) async {
                     await ref
                         .read(reminderListProvider.notifier)
-                        .deleteReminder(
+                        .handleReminderDismiss(
                           id: reminderList[index].id,
                         );
                   },

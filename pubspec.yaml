@@ -25,7 +25,6 @@ dependencies:
   json_annotation: ^4.9.0
   riverpod_annotation: ^2.3.5
   timezone: ^0.9.3
-  uuid: ^4.4.0
 
 dev_dependencies:
   flutter_test:

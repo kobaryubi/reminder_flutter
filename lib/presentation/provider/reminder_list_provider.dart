@@ -1,4 +1,5 @@
 import 'package:reminder_flutter/domain/entity/reminder_entity.dart';
+import 'package:reminder_flutter/main.dart';
 import 'package:reminder_flutter/presentation/provider/reminder_use_case_provider.dart';
 import 'package:reminder_flutter/presentation/provider/user_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -36,5 +37,10 @@ class ReminderList extends _$ReminderList {
     reminderList.removeWhere((reminder) => reminder.id == id);
 
     ref.invalidateSelf();
+  }
+
+  Future<void> handleReminderDismiss({required String id}) async {
+    await deleteReminder(id: id);
+    await flutterLocalNotificationsPlugin.cancel(id.hashCode);
   }
 }
