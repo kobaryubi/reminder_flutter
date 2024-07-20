@@ -14,6 +14,14 @@ class Reminder extends _$Reminder {
       throw Exception('User is not signed in');
     }
 
+    if (id.isEmpty) {
+      return ReminderEntity(
+        id: '',
+        title: '',
+        remindAt: DateTime.now(),
+      );
+    }
+
     return await ref.read(getReminderUseCaseProvider)(
       uid: uid,
       id: id,
