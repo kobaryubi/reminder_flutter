@@ -138,19 +138,17 @@ class ReminderEditFormWidgetState extends ConsumerState<ReminderEditFormWidget>
                               remindAt: remindAt.value,
                             );
 
-                      widget.reminderEntity.id.isEmpty
-                          ? await ref
-                              .read(reminderProvider(id: '').notifier)
-                              .addReminder(
-                                reminderEntity: reminderEntity,
-                              )
-                          : await ref
-                              .read(
-                                  reminderProvider(id: widget.reminderEntity.id)
-                                      .notifier)
-                              .updateReminder(
-                                reminderEntity: reminderEntity,
-                              );
+                      final reminderNotifier = ref.read(
+                        reminderProvider(id: reminderEntity.id).notifier,
+                      );
+
+                      reminderEntity.id.isEmpty
+                          ? await reminderNotifier.addReminder(
+                              reminderEntity: reminderEntity,
+                            )
+                          : await reminderNotifier.updateReminder(
+                              reminderEntity: reminderEntity,
+                            );
 
                       scheduleLocalNotification(reminderEntity: reminderEntity);
 
